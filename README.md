@@ -1,6 +1,6 @@
 # Swatch Telegram Monitor
 
-Petit bot Python qui surveille des pages Swatch avec `requests` et `BeautifulSoup`, puis envoie une notification Telegram quand un mot-cle configure est detecte.
+Petit bot Python qui surveille des pages Swatch avec `requests` et `BeautifulSoup`, puis envoie une notification Telegram seulement quand une page semble liee a Audemars Piguet x Swatch / AP x Swatch / Royal Pop et a un contexte produit, collection ou achat.
 
 Il ne passe aucune commande d'achat, ne contourne aucun CAPTCHA, ne contourne aucune file d'attente et se limite a des requetes HTTP raisonnables avec timeout et `User-Agent`.
 
@@ -25,12 +25,39 @@ python main.py --once
 Modifiez `config.yaml` :
 
 - `urls` : pages a surveiller.
-- `keywords` : mots-cles a detecter.
+- `required_keywords` : mots-cles principaux obligatoires.
+- `secondary_keywords` : mots-cles de contexte.
+- `purchase_keywords` : textes indiquant une page d'achat, disponibilite ou notification.
+- `excluded_keywords` : mots-cles a penaliser, par exemple MoonSwatch sans lien Audemars/Royal Pop.
+- `allowed_url_patterns` : motifs d'URL autorises, utile pour limiter a la France.
+- `blocked_url_patterns` : motifs d'URL refuses, par exemple `/en-us/`.
+- `min_score` : score minimal requis pour envoyer une alerte.
 - `timeout_seconds` : timeout HTTP.
 - `request_delay_seconds` : pause entre deux URLs.
 - `user_agent` : identifiant de requete raisonnable.
 
-Le bot envoie une alerte Telegram avec l'URL, le mot-cle detecte, l'heure UTC et un extrait du texte trouve.
+Le bot analyse aussi `title`, meta description, `og:title`, `og:description`, URL canonique et JSON-LD `Product`.
+
+## Scoring
+
+Une alerte est envoyee uniquement si toutes les conditions suivantes sont vraies :
+
+- score superieur ou egal a `min_score`.
+- au moins un `required_keyword` est trouve.
+- un contexte produit/achat est trouve : `purchase_keyword`, URL produit/collection, ou JSON-LD `Product`.
+
+Baremes :
+
+- mot-cle principal trouve : `+5`.
+- mot-cle achat trouve : `+3`.
+- URL produit/collection trouvee : `+3`.
+- titre contenant un mot-cle principal : `+4`.
+- JSON-LD `Product` detecte : `+4`.
+- prix avec `€`, `$` ou `£` detecte : `+2`.
+- homepage ou page generique : `-5`.
+- MoonSwatch ou exclusion sans Audemars/Royal Pop : `-5`.
+
+Les mots comme `Swatch`, `available`, `add to cart`, `disponible`, `Bioceramic` ou `MoonSwatch` ne declenchent jamais une alerte seuls.
 
 ## Secrets GitHub Actions
 
@@ -71,6 +98,9 @@ Cette methode est simple et gratuite. Elle evite de renvoyer la meme alerte a ch
 ```bash
 python main.py --test-telegram
 python main.py --once
+python main.py --debug-url "https://www.swatch.com/fr-fr/..."
 ```
+
+`--debug-url` affiche le diagnostic complet de scoring pour une URL sans envoyer Telegram. Quand une page est rejetee, `--once` loggue l'URL, le score et la raison du rejet.
 
 Sans `--once`, le bot tourne en boucle avec `interval_seconds`, ce qui est utile en local. GitHub Actions utilise toujours `--once`.

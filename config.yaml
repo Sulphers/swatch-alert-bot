@@ -1,26 +1,56 @@
 urls:
-  - "https://www.swatch.com/"
   - "https://www.swatch.com/fr-fr/"
-  - "https://www.swatch.com/en-us/"
+  - "https://www.swatch.com/fr-fr/collections/"
+  - "https://www.swatch.com/fr-fr/watches/"
 
-keywords:
-  - "Audemars"
-  - "Audemars Piguet"
-  - "AP"
-  - "Royal Pop"
-  - "Royal Oak"
-  - "Royal Oak Swatch"
-  - "AP x Swatch"
-  - "Audemars Piguet x Swatch"
-  - "Swatch"
-  - "Bioceramic"
-  - "disponible"
-  - "ajouter au panier"
+required_keywords:
+  - "audemars"
+  - "audemars piguet"
+  - "ap x swatch"
+  - "ap swatch"
+  - "royal pop"
+  - "royal oak"
+  - "royaloak"
+  - "royal"
+  - "audemars-piguet"
+
+secondary_keywords:
+  - "royal"
+  - "bioceramic"
+
+purchase_keywords:
   - "add to cart"
-  - "available"
+  - "add to bag"
+  - "buy now"
+  - "ajouter au panier"
+  - "acheter"
+  - "disponible en ligne"
+  - "available online"
+  - "online exclusive"
+  - "notify me"
+  - "out of stock"
 
+excluded_keywords:
+  - "moonswatch"
+  - "mission to the moon"
+  - "mission to earth"
+  - "mission to the sun"
+
+allowed_url_patterns:
+  - "/fr-fr/"
+  - "/product"
+  - "/products"
+  - "/collection"
+  - "/collections"
+  - "/watches"
+  - "/shop"
+
+blocked_url_patterns:
+  - "/en-us/"
+  - "/homepage"
+
+min_score: 10
 timeout_seconds: 15
 request_delay_seconds: 2
 interval_seconds: 300
-excerpt_chars: 260
 user_agent: "Mozilla/5.0 (compatible; SwatchAvailabilityMonitor/1.0; +https://github.com/your-org/your-repo)"
