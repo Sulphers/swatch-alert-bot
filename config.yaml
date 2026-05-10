@@ -1,6 +1,5 @@
 urls:
-  - "https://www.swatch.com/fr-fr/"
-  - "https://www.swatch.com/fr-fr/collections/"
+  - "https://www.swatch.com/fr-fr/collection/"
   - "https://www.swatch.com/fr-fr/watches/"
 
 required_keywords:
