@@ -1,0 +1,26 @@
+urls:
+  - "https://www.swatch.com/"
+  - "https://www.swatch.com/fr-fr/"
+  - "https://www.swatch.com/en-us/"
+
+keywords:
+  - "Audemars"
+  - "Audemars Piguet"
+  - "AP"
+  - "Royal Pop"
+  - "Royal Oak"
+  - "Royal Oak Swatch"
+  - "AP x Swatch"
+  - "Audemars Piguet x Swatch"
+  - "Swatch"
+  - "Bioceramic"
+  - "disponible"
+  - "ajouter au panier"
+  - "add to cart"
+  - "available"
+
+timeout_seconds: 15
+request_delay_seconds: 2
+interval_seconds: 300
+excerpt_chars: 260
+user_agent: "Mozilla/5.0 (compatible; SwatchAvailabilityMonitor/1.0; +https://github.com/your-org/your-repo)"
